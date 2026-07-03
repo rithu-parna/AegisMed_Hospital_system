@@ -106,10 +106,10 @@ export default function HMSHome() {
   const activeStaffSparkline = [5, 6, 6, 5, 6, 6, 6];
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background bg-grid-pattern">
+    <div className="flex h-screen overflow-hidden bg-mesh-gradient bg-grid-pattern relative">
       {/* Background glowing gradients for premium aesthetics */}
-      <div className="absolute top-[-10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-teal-500/10 blur-[120px] pointer-events-none animate-pulse-glow" />
-      <div className="absolute bottom-[-10%] right-[-10%] h-[500px] w-[500px] rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none animate-pulse-glow" />
+      <div className="absolute top-[-10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-teal-500/5 blur-[130px] pointer-events-none animate-pulse-glow" />
+      <div className="absolute bottom-[-10%] right-[-10%] h-[500px] w-[500px] rounded-full bg-indigo-500/5 blur-[130px] pointer-events-none animate-pulse-glow" />
 
       {/* Sidebar Navigation */}
       <Sidebar 
@@ -123,22 +123,21 @@ export default function HMSHome() {
       <main className="flex-1 flex flex-col overflow-hidden">
         
         {/* Header Dashboard Area */}
-        <header className="h-18 px-8 border-b border-border flex items-center justify-between bg-card/10 backdrop-blur-md z-10 no-print">
+        <header className="h-16 px-8 border-b border-border/60 flex items-center justify-between bg-card/20 backdrop-blur-md z-10 no-print">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground font-semibold">HMS Workspace</span>
-            <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
-            <span className="text-xs font-bold capitalize text-primary">
-              {activeTab === 'dashboard' ? 'General Dashboard' : activeTab.replace('-', ' ')}
+            <span className="text-[10px] uppercase tracking-widest font-extrabold text-muted-foreground">HMS Command Console</span>
+            <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/60" />
+            <span className="text-[10px] uppercase tracking-widest font-black text-primary">
+              {activeTab === 'dashboard' ? 'Overview' : activeTab.replace('-', ' ')}
             </span>
           </div>
 
           <div className="flex items-center gap-6">
             {/* Live Date-Time Ticker */}
             <div className="text-right">
-              <span className="text-xs font-semibold text-muted-foreground block leading-none mb-1">Clinic Status</span>
-              <div className="flex items-center gap-1.5 justify-end">
-                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
-                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-500">Live Services Active</span>
+              <div className="flex items-center gap-2 justify-end">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
+                <span className="text-[9px] font-black uppercase tracking-widest text-emerald-500">Live Server Connected</span>
               </div>
             </div>
           </div>
@@ -152,13 +151,14 @@ export default function HMSHome() {
             <div className="space-y-8 animate-in fade-in duration-300">
               
               {/* Top Banner Greeting */}
-              <div className="flex justify-between items-center p-6 border border-primary/10 rounded-2xl bg-gradient-to-r from-teal-500/5 to-emerald-500/5 backdrop-blur-md">
+              <div className="flex justify-between items-center p-6 border border-primary/20 rounded-2xl bg-gradient-to-r from-teal-500/10 via-primary/5 to-transparent backdrop-blur-md shadow-glow-teal relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-48 h-full bg-gradient-to-l from-white/5 to-transparent pointer-events-none blur-xl" />
                 <div>
-                  <h2 className="text-xl font-bold">Good Day, Administrator</h2>
-                  <p className="text-xs text-muted-foreground mt-1">Here is a summary of the clinical wards, pending invoices, and active appointments for today.</p>
+                  <h2 className="text-lg font-black tracking-tight uppercase">Medical Center Control Panel</h2>
+                  <p className="text-xs text-muted-foreground mt-1 font-medium">Real-time clinical roster statistics, client intake queues, and general invoice audits.</p>
                 </div>
-                <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shadow-lg shadow-primary/10">
-                  <Heart className="h-5 w-5 animate-pulse" />
+                <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shadow-lg animate-heartbeat shrink-0">
+                  <Activity className="h-5 w-5" />
                 </div>
               </div>
 
@@ -206,28 +206,28 @@ export default function HMSHome() {
               <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
                 
                 {/* Active Doctors Roster */}
-                <div className="xl:col-span-7 p-6 border border-border rounded-2xl bg-card/30 backdrop-blur-md">
-                  <h3 className="text-base font-bold mb-4 flex items-center gap-2">
+                <div className="xl:col-span-7 p-6 border border-border/80 rounded-2xl bg-card/30 backdrop-blur-md">
+                  <h3 className="text-xs font-extrabold uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
                     <Stethoscope className="h-4.5 w-4.5 text-primary" />
-                    <span>Clinic Ward Roster & Staff Availability</span>
+                    <span>Clinic Ward Roster & Physician Status</span>
                   </h3>
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {doctors.map((doc) => (
-                      <div key={doc.id} className="p-4 rounded-xl border border-border bg-card/50 hover:bg-card transition-all duration-200 flex items-center gap-3">
+                      <div key={doc.id} className="p-4 rounded-xl border border-border/60 bg-card/40 hover:bg-card hover:border-primary/20 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 flex items-center gap-3">
                         <img 
                           src={doc.avatar} 
                           alt={doc.name} 
-                          className="h-12 w-12 rounded-xl object-cover ring-2 ring-primary/10"
+                          className="h-10 w-10 rounded-lg object-cover ring-2 ring-primary/10"
                         />
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-bold text-xs truncate">{doc.name}</h4>
-                          <p className="text-[10px] text-muted-foreground truncate">{doc.specialty}</p>
-                          <span className={`inline-block text-[9px] font-bold px-2 py-0.25 rounded-full mt-1.5 uppercase ${
-                            doc.status === 'available' ? 'bg-emerald-500/10 text-emerald-500' :
-                            doc.status === 'busy' ? 'bg-amber-500/10 text-amber-500' :
-                            doc.status === 'on-duty' ? 'bg-blue-500/10 text-blue-500' :
-                            'bg-rose-500/10 text-rose-500'
+                          <h4 className="font-extrabold text-xs tracking-tight truncate">{doc.name}</h4>
+                          <p className="text-[10px] text-muted-foreground font-semibold truncate">{doc.specialty}</p>
+                          <span className={`inline-block text-[8px] font-black px-1.5 py-0.25 rounded uppercase tracking-wider mt-1 border ${
+                            doc.status === 'available' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
+                            doc.status === 'busy' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' :
+                            doc.status === 'on-duty' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' :
+                            'bg-rose-500/10 text-rose-500 border-rose-500/20'
                           }`}>
                             {doc.status.replace('-', ' ')}
                           </span>
@@ -238,11 +238,11 @@ export default function HMSHome() {
                 </div>
 
                 {/* Queue Summary panel */}
-                <div className="xl:col-span-5 p-6 border border-border rounded-2xl bg-card/30 backdrop-blur-md flex flex-col justify-between">
+                <div className="xl:col-span-5 p-6 border border-border/80 rounded-2xl bg-card/30 backdrop-blur-md flex flex-col justify-between">
                   <div>
-                    <h3 className="text-base font-bold mb-4 flex items-center gap-2">
+                    <h3 className="text-xs font-extrabold uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
                       <Clock className="h-4.5 w-4.5 text-primary" />
-                      <span>Today&apos;s Lobby Feed</span>
+                      <span>Live lobby intakes</span>
                     </h3>
                     
                     <div className="space-y-3">
@@ -250,12 +250,12 @@ export default function HMSHome() {
                         .filter(a => a.status === 'scheduled' || a.status === 'in-progress')
                         .slice(0, 3)
                         .map((appt) => (
-                          <div key={appt.id} className="flex justify-between items-center p-3 rounded-xl bg-muted/40 border border-border/50 text-xs">
+                          <div key={appt.id} className="flex justify-between items-center p-3 rounded-xl bg-muted/20 border border-border/40 text-xs">
                             <div>
-                              <p className="font-bold">{appt.patientName}</p>
-                              <p className="text-[10px] text-muted-foreground">Assigned to: {appt.doctorName}</p>
+                              <p className="font-bold text-foreground">{appt.patientName}</p>
+                              <p className="text-[9px] text-muted-foreground font-semibold">Staff: {appt.doctorName}</p>
                             </div>
-                            <span className="font-mono font-bold bg-card border border-border px-2.5 py-1 rounded text-[10px]">
+                            <span className="font-mono font-bold bg-card border border-border/60 px-2 py-0.5 rounded text-[9px] text-primary">
                               {appt.time}
                             </span>
                           </div>
@@ -268,7 +268,7 @@ export default function HMSHome() {
 
                   <button
                     onClick={() => setActiveTab('appointments')}
-                    className="w-full mt-4 py-2 bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all"
+                    className="w-full mt-4 py-2.5 bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground font-black uppercase tracking-wider rounded-xl text-[10px] flex items-center justify-center gap-1.5 transition-all duration-300 shimmer-btn"
                   >
                     <span>Manage All Appointments</span>
                     <ChevronRight className="h-3.5 w-3.5" />

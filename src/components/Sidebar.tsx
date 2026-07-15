@@ -20,9 +20,10 @@ interface SidebarProps {
   setActiveTab: (tab: string) => void;
   theme: 'light' | 'dark';
   toggleTheme: () => void;
+  onLogout?: () => void;
 }
 
-export default function Sidebar({ activeTab, setActiveTab, theme, toggleTheme }: SidebarProps) {
+export default function Sidebar({ activeTab, setActiveTab, theme, toggleTheme, onLogout }: SidebarProps) {
   const menuItems = [
     { id: 'dashboard', label: 'Overview', icon: Activity, color: 'text-teal-500', glow: 'shadow-glow-teal' },
     { id: 'doctors', label: 'Doctor Workspace', icon: UserCheck, color: 'text-emerald-500', glow: 'shadow-glow-teal' },
@@ -86,22 +87,6 @@ export default function Sidebar({ activeTab, setActiveTab, theme, toggleTheme }:
 
       {/* Sidebar Footer */}
       <div className="p-4 border-t border-border/50 space-y-4">
-        {/* Theme Toggle Widget */}
-        <div className="flex items-center justify-between p-2 rounded-xl bg-muted/30 border border-border/40">
-          <span className="text-[10px] font-extrabold uppercase tracking-widest text-muted-foreground px-2">Theme Mode</span>
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-lg bg-card border border-border/80 shadow-sm hover:bg-muted hover:text-primary transition-all duration-300"
-            aria-label="Toggle Theme"
-          >
-            {theme === 'dark' ? (
-              <Sun className="h-4 w-4 text-amber-400 drop-shadow-[0_0_5px_rgba(251,191,36,0.4)]" />
-            ) : (
-              <Moon className="h-4 w-4 text-indigo-500" />
-            )}
-          </button>
-        </div>
-
         {/* User Card */}
         <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-muted/20 transition-all duration-200">
           <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-teal-500 to-indigo-500 flex items-center justify-center font-extrabold text-xs text-white shadow-glow-teal">
@@ -112,8 +97,9 @@ export default function Sidebar({ activeTab, setActiveTab, theme, toggleTheme }:
             <p className="text-[9px] uppercase tracking-widest text-muted-foreground font-semibold truncate">Super Admin</p>
           </div>
           <button 
+            onClick={onLogout}
             className="p-2 text-muted-foreground hover:text-rose-500 rounded-lg hover:bg-rose-500/10 transition-all"
-            title="Log Out"
+            title="Exit Console"
           >
             <LogOut className="h-4 w-4" />
           </button>

@@ -6,9 +6,7 @@ import {
   Calendar, 
   Clock, 
   Search, 
-  Plus, 
   X, 
-  User, 
   AlertTriangle, 
   CheckCircle, 
   XCircle, 
@@ -43,10 +41,8 @@ export default function AppointmentManager({
   const [priority, setPriority] = useState<'low' | 'medium' | 'high'>('medium');
   const [notes, setNotes] = useState('');
 
-  // Conflict warning trigger
   const hasConflict = () => {
     if (!doctorId || !date || !time) return false;
-    // Check if doctor has another scheduled/in-progress appointment at the same date and time
     return appointments.some(appt => 
       appt.doctorId === doctorId && 
       appt.date === date && 
@@ -80,8 +76,6 @@ export default function AppointmentManager({
     };
 
     setAppointments(prev => [newAppt, ...prev]);
-
-    // Reset inputs
     setPatientId('');
     setDoctorId('');
     setDate('');
@@ -102,7 +96,6 @@ export default function AppointmentManager({
     }
   };
 
-  // Filter list
   const filteredAppointments = appointments.filter(a => {
     const matchesSearch = a.patientName.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           a.doctorName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -114,10 +107,9 @@ export default function AppointmentManager({
 
   return (
     <div className="space-y-6">
-      {/* Filters & Actions Panel */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 p-4 border border-border rounded-2xl bg-card/40 backdrop-blur-md">
+      {/* Query Filter and Actions */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 p-4 premium-card">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto flex-1">
-          {/* Search */}
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
@@ -125,15 +117,14 @@ export default function AppointmentManager({
               placeholder="Search by Patient, Doctor or ID..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 text-sm border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+              className="w-full pl-10 pr-4 py-2 premium-input"
             />
           </div>
 
-          {/* Status filter */}
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="px-3 py-2 text-sm border border-border rounded-xl bg-card text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            className="premium-input py-2 px-3 text-muted-foreground font-bold"
           >
             <option value="All">All Statuses</option>
             <option value="scheduled">Scheduled</option>
@@ -142,11 +133,10 @@ export default function AppointmentManager({
             <option value="cancelled">Cancelled</option>
           </select>
 
-          {/* Priority filter */}
           <select
             value={selectedPriority}
             onChange={(e) => setSelectedPriority(e.target.value)}
-            className="px-3 py-2 text-sm border border-border rounded-xl bg-card text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            className="premium-input py-2 px-3 text-muted-foreground font-bold"
           >
             <option value="All">All Priorities</option>
             <option value="low">Low</option>
@@ -155,17 +145,15 @@ export default function AppointmentManager({
           </select>
         </div>
 
-        {/* Book Appointment trigger */}
         <button
           onClick={() => setIsBookModalOpen(true)}
-          className="w-full md:w-auto px-4 py-2.5 bg-primary text-primary-foreground font-bold hover:opacity-90 rounded-xl transition-all shadow-md shadow-primary/20 flex items-center justify-center gap-2 text-sm"
+          className="w-full md:w-auto premium-btn premium-btn-primary py-2.5 px-4 text-xs"
         >
           <Calendar className="h-4 w-4" />
           <span>Book Appointment</span>
         </button>
       </div>
 
-      {/* Appointments Grid List */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {filteredAppointments.length === 0 ? (
           <div className="col-span-full py-16 text-center text-muted-foreground border border-dashed border-border rounded-2xl bg-card/10">
@@ -177,7 +165,7 @@ export default function AppointmentManager({
           filteredAppointments.map((appt) => (
             <div 
               key={appt.id} 
-              className={`p-6 border border-border rounded-2xl glass-panel hover:shadow-md transition-all duration-200 flex flex-col justify-between ${
+              className={`p-6 premium-card flex flex-col justify-between ${
                 appt.status === 'cancelled' ? 'opacity-65' : ''
               }`}
             >
@@ -188,7 +176,7 @@ export default function AppointmentManager({
                   </span>
                   
                   {/* Status Indicator */}
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${
+                  <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${
                     appt.status === 'completed' ? 'bg-emerald-500/10 text-emerald-500' :
                     appt.status === 'in-progress' ? 'bg-primary/10 text-primary animate-pulse' :
                     appt.status === 'cancelled' ? 'bg-rose-500/10 text-rose-500' :
@@ -221,8 +209,7 @@ export default function AppointmentManager({
                     </div>
                   </div>
 
-                  {/* Schedule Details */}
-                  <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-muted/40 border border-border/50 text-xs font-semibold mt-4">
+                  <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-muted/40 border border-border/20 text-xs font-semibold mt-4">
                     <div className="flex items-center gap-1.5 text-muted-foreground">
                       <Calendar className="h-3.5 w-3.5 text-primary" />
                       <span>{appt.date}</span>
@@ -233,7 +220,6 @@ export default function AppointmentManager({
                     </div>
                   </div>
 
-                  {/* Reason & Priority */}
                   <div className="space-y-1.5 mt-3 text-xs">
                     <p className="text-muted-foreground leading-relaxed">
                       <span className="font-bold text-foreground">Reason:</span> {appt.reason}
@@ -257,14 +243,14 @@ export default function AppointmentManager({
                 <div className="flex gap-2 border-t border-border/50 pt-4 mt-5 text-xs font-semibold justify-end">
                   <button
                     onClick={() => handleUpdateStatus(appt.id, 'cancelled')}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-rose-500 hover:bg-rose-500/10 rounded-lg transition-colors"
+                    className="premium-btn premium-btn-secondary text-rose-500 hover:text-rose-600 px-3 py-1.5 text-[10px]"
                   >
                     <XCircle className="h-3.5 w-3.5" />
                     <span>Cancel</span>
                   </button>
                   <button
                     onClick={() => handleUpdateStatus(appt.id, 'completed')}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-emerald-500 hover:bg-emerald-500/10 rounded-lg transition-colors"
+                    className="premium-btn premium-btn-primary px-3 py-1.5 text-[10px]"
                   >
                     <CheckCircle className="h-3.5 w-3.5" />
                     <span>Complete</span>
@@ -275,7 +261,7 @@ export default function AppointmentManager({
                 <div className="flex justify-end pt-4 mt-5 border-t border-border/50">
                   <button
                     onClick={() => handleDeleteAppointment(appt.id)}
-                    className="text-xs font-semibold text-muted-foreground hover:text-rose-500 transition-colors"
+                    className="text-xs font-bold text-muted-foreground hover:text-rose-500 transition-colors"
                   >
                     Remove Log
                   </button>
@@ -289,7 +275,7 @@ export default function AppointmentManager({
       {/* Book Appointment Modal */}
       {isBookModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-md bg-card border border-border rounded-2xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
+          <div className="w-full max-w-md premium-card p-6 relative animate-in zoom-in-95 duration-200">
             {/* Modal Close */}
             <button 
               onClick={() => setIsBookModalOpen(false)}
@@ -311,7 +297,7 @@ export default function AppointmentManager({
                   required
                   value={patientId}
                   onChange={(e) => setPatientId(e.target.value)}
-                  className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                  className="w-full premium-input font-bold text-muted-foreground"
                 >
                   <option value="">-- Choose Patient --</option>
                   {patients.map(p => (
@@ -327,7 +313,7 @@ export default function AppointmentManager({
                   required
                   value={doctorId}
                   onChange={(e) => setDoctorId(e.target.value)}
-                  className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                  className="w-full premium-input font-bold text-muted-foreground"
                 >
                   <option value="">-- Choose Physician --</option>
                   {doctors.map(d => (
@@ -345,7 +331,7 @@ export default function AppointmentManager({
                     required
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                    className="w-full premium-input font-bold"
                   />
                 </div>
                 <div>
@@ -354,7 +340,7 @@ export default function AppointmentManager({
                     required
                     value={time}
                     onChange={(e) => setTime(e.target.value)}
-                    className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                    className="w-full premium-input font-bold text-muted-foreground"
                   >
                     <option value="">-- Time --</option>
                     <option value="09:00">09:00 AM</option>
@@ -413,7 +399,7 @@ export default function AppointmentManager({
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
                   placeholder="e.g. Routine blood analysis, chronic insomnia follow-up"
-                  className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                  className="w-full premium-input"
                 />
               </div>
 
@@ -425,7 +411,7 @@ export default function AppointmentManager({
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Additional medical context or preparation warnings..."
-                  className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                  className="w-full premium-input"
                 />
               </div>
 
@@ -434,13 +420,13 @@ export default function AppointmentManager({
                 <button
                   type="button"
                   onClick={() => setIsBookModalOpen(false)}
-                  className="px-4 py-2 border border-border rounded-xl hover:bg-muted text-xs font-bold"
+                  className="premium-btn premium-btn-secondary px-4 py-2 text-xs"
                 >
                   Close
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-primary text-primary-foreground font-bold hover:opacity-90 rounded-xl text-xs flex items-center gap-1.5"
+                  className="premium-btn premium-btn-primary px-5 py-2 text-xs"
                 >
                   <span>Book Schedule</span>
                   <ArrowRight className="h-3.5 w-3.5" />

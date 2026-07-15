@@ -104,7 +104,7 @@ export default function AnalyticsChart({
     : '';
 
   return (
-    <div className="p-6 rounded-2xl border border-border glass-panel w-full">
+    <div className="p-6 premium-card w-full">
       <div className="flex items-center justify-between mb-6">
         <h4 className="font-semibold text-base">{title}</h4>
         {/* Legends */}
@@ -338,7 +338,7 @@ export default function AnalyticsChart({
         {/* Hover Tooltip Overlay */}
         {hoveredIdx !== null && data[hoveredIdx] && (
           <div 
-            className="absolute z-20 bg-card border border-border rounded-xl p-3 shadow-xl text-xs space-y-1 backdrop-blur-md pointer-events-none transition-all duration-150"
+            className="absolute z-20 premium-card p-3 text-xs space-y-1 pointer-events-none transition-all duration-150 shadow-xl"
             style={{
               left: `${Math.min(
                 Math.max(coords[hoveredIdx].x - 60, paddingLeft),

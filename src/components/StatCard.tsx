@@ -113,7 +113,7 @@ export default function StatCard({
   const path = sparkline ? generateSparklinePath(sparkline) : null;
 
   return (
-    <div className={`p-6 rounded-2xl border border-border/80 bg-gradient-to-br ${scheme.bg} glass-panel ${scheme.glow} hover:-translate-y-0.5 transition-all duration-300 ${scheme.border} flex flex-col justify-between group relative overflow-hidden`}>
+    <div className={`p-6 premium-card flex flex-col justify-between group relative overflow-hidden`}>
       {/* Dynamic light highlight effect */}
       <span className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/10 to-transparent pointer-events-none rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       

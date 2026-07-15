@@ -5,14 +5,9 @@ import { Doctor, Patient, Appointment, Invoice, MedicalRecord } from '../types/h
 import AnalyticsChart from './AnalyticsChart';
 import { 
   BarChart3, 
-  Download, 
   FileSpreadsheet, 
   FileText, 
   Activity, 
-  ShieldAlert, 
-  Layers,
-  ArrowRight,
-  TrendingUp
 } from 'lucide-react';
 
 interface ReportManagerProps {
@@ -32,7 +27,6 @@ export default function ReportManager({
 }: ReportManagerProps) {
   const [exporting, setExporting] = useState<string | null>(null);
 
-  // Generate department analytics
   const departments = [
     { name: 'Cardiology', activeStaff: 2, totalBedCount: 30, occupiedBedCount: 22, color: 'border-teal-500/20' },
     { name: 'Pediatrics', activeStaff: 1, totalBedCount: 25, occupiedBedCount: 15, color: 'border-emerald-500/20' },
@@ -45,7 +39,6 @@ export default function ReportManager({
   const totalOccupied = departments.reduce((acc, d) => acc + d.occupiedBedCount, 0);
   const occupancyPercent = ((totalOccupied / totalBeds) * 100).toFixed(1);
 
-  // Calculate monthly patient visits mock trends based on appointment dates
   const visitsData = [
     { label: 'Jan', value1: 45, value2: 30 },
     { label: 'Feb', value1: 60, value2: 38 },
@@ -56,7 +49,6 @@ export default function ReportManager({
     { label: 'Jul', value1: 150, value2: 112 }
   ];
 
-  // Financial department share mock calculations
   const financialData = [
     { label: 'Cardiology', value1: 18500 },
     { label: 'Pediatrics', value1: 9500 },
@@ -66,7 +58,6 @@ export default function ReportManager({
     { label: 'Surgery', value1: 22000 }
   ];
 
-  // Simulate file exports
   const handleExport = (type: string, filename: string) => {
     setExporting(type);
     setTimeout(() => {
@@ -75,7 +66,6 @@ export default function ReportManager({
     }, 1500);
   };
 
-  // Dynamically compile an audit log feed
   const generateAuditLogs = () => {
     const logs: {
       id: string;
@@ -85,7 +75,6 @@ export default function ReportManager({
       severity: 'info' | 'warning' | 'success';
     }[] = [];
     
-    // Add logs for patients
     patients.forEach((p, idx) => {
       logs.push({
         id: `LOG-P${idx}`,
@@ -96,7 +85,6 @@ export default function ReportManager({
       });
     });
 
-    // Add logs for appointments
     appointments.forEach((a, idx) => {
       logs.push({
         id: `LOG-A${idx}`,
@@ -107,7 +95,6 @@ export default function ReportManager({
       });
     });
 
-    // Add logs for invoices
     invoices.forEach((inv, idx) => {
       logs.push({
         id: `LOG-I${idx}`,
@@ -118,7 +105,6 @@ export default function ReportManager({
       });
     });
 
-    // Add medical records logs
     records.forEach((rec, idx) => {
       logs.push({
         id: `LOG-R${idx}`,
@@ -128,8 +114,6 @@ export default function ReportManager({
         severity: 'success'
       });
     });
-
-    // Sort by id descending
     return logs.slice(0, 10);
   };
 
@@ -138,8 +122,7 @@ export default function ReportManager({
   return (
     <div className="space-y-6">
       
-      {/* Export Controls Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-6 border border-border rounded-2xl bg-card/40 backdrop-blur-md gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-6 premium-card gap-4">
         <div>
           <h2 className="text-xl font-bold flex items-center gap-2">
             <BarChart3 className="h-5 w-5 text-primary" />
@@ -152,7 +135,7 @@ export default function ReportManager({
           <button
             onClick={() => handleExport('PDF', 'HMS_Operational_Overview.pdf')}
             disabled={exporting !== null}
-            className="flex-1 sm:flex-initial px-3.5 py-2 border border-border rounded-xl text-xs font-bold hover:bg-muted transition-colors flex items-center justify-center gap-2"
+            className="flex-1 sm:flex-initial premium-btn premium-btn-secondary py-2 px-3.5 text-xs"
           >
             <FileText className="h-4 w-4 text-rose-500" />
             <span>{exporting === 'PDF' ? 'Generating PDF...' : 'Export PDF Summary'}</span>
@@ -160,7 +143,7 @@ export default function ReportManager({
           <button
             onClick={() => handleExport('CSV', 'HMS_Billing_Report.csv')}
             disabled={exporting !== null}
-            className="flex-1 sm:flex-initial px-3.5 py-2 bg-primary text-primary-foreground font-bold hover:opacity-90 rounded-xl text-xs flex items-center justify-center gap-2 transition-all"
+            className="flex-1 sm:flex-initial premium-btn premium-btn-primary py-2 px-3.5 text-xs"
           >
             <FileSpreadsheet className="h-4 w-4 text-emerald-300" />
             <span>{exporting === 'CSV' ? 'Exporting CSV...' : 'Download Financial CSV'}</span>
@@ -168,10 +151,8 @@ export default function ReportManager({
         </div>
       </div>
 
-      {/* Main Charts & Analytics Split */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        {/* Visual Charts: Left 8 cols */}
         <div className="lg:col-span-8 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <AnalyticsChart
@@ -191,30 +172,29 @@ export default function ReportManager({
             />
           </div>
 
-          {/* Audit Logs Feed */}
-          <div className="p-6 border border-border rounded-2xl bg-card/30 backdrop-blur-md">
+          <div className="p-6 premium-card">
             <h3 className="text-base font-bold mb-4 flex items-center gap-2">
               <Activity className="h-4 w-4 text-primary" />
               <span>Live System Audit Log</span>
             </h3>
 
-            <div className="border border-border/80 rounded-xl overflow-hidden text-xs">
-              <table className="w-full text-left">
+            <div className="overflow-hidden text-xs">
+              <table className="premium-table">
                 <thead>
-                  <tr className="bg-muted text-muted-foreground font-semibold border-b border-border/80">
-                    <th className="p-3">Time</th>
-                    <th className="p-3">Category</th>
-                    <th className="p-3">Event Detail</th>
-                    <th className="p-3 text-right">Status</th>
+                  <tr>
+                    <th>Time</th>
+                    <th>Category</th>
+                    <th>Event Detail</th>
+                    <th className="text-right">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-border/60">
+                <tbody>
                   {logs.map((log) => (
-                    <tr key={log.id} className="hover:bg-muted/20">
-                      <td className="p-3 font-mono text-muted-foreground">{log.time}</td>
-                      <td className="p-3 font-bold text-foreground">{log.category}</td>
-                      <td className="p-3 text-muted-foreground">{log.event}</td>
-                      <td className="p-3 text-right">
+                    <tr key={log.id}>
+                      <td className="font-mono text-muted-foreground">{log.time}</td>
+                      <td className="font-bold text-foreground">{log.category}</td>
+                      <td className="text-muted-foreground">{log.event}</td>
+                      <td className="text-right">
                         <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-full uppercase ${
                           log.severity === 'warning' ? 'bg-amber-500/10 text-amber-500' :
                           log.severity === 'success' ? 'bg-emerald-500/10 text-emerald-500' :
@@ -231,13 +211,10 @@ export default function ReportManager({
           </div>
         </div>
 
-        {/* Operational Statistics: Right 4 cols */}
         <div className="lg:col-span-4 space-y-6">
-          {/* Bed Occupancy Card */}
-          <div className="p-6 border border-border rounded-2xl bg-card/30 backdrop-blur-md flex flex-col items-center justify-center text-center">
+          <div className="p-6 premium-card flex flex-col items-center justify-center text-center">
             <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-4">Bed Occupancy Rating</h3>
             
-            {/* SVG Circle Progress */}
             <div className="relative h-32 w-32 mb-4">
               <svg className="w-full h-full transform -rotate-90">
                 <circle
@@ -274,7 +251,7 @@ export default function ReportManager({
           </div>
 
           {/* Department Breakdown details list */}
-          <div className="p-6 border border-border rounded-2xl bg-card/30 backdrop-blur-md">
+          <div className="p-6 premium-card">
             <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-4">Ward Breakdown</h3>
             <div className="space-y-4">
               {departments.map((dept, i) => {

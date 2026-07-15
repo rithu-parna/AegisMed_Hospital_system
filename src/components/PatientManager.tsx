@@ -97,7 +97,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
   return (
     <div className="space-y-6">
       {/* Search and Filters Bar */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 p-4 border border-border rounded-2xl bg-card/40 backdrop-blur-md">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 p-4 premium-card">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto flex-1">
           {/* Search bar */}
           <div className="relative flex-1 max-w-md">
@@ -107,7 +107,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
               placeholder="Search patients by name or ID..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 text-sm border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+              className="w-full pl-10 pr-4 py-2 premium-input"
             />
           </div>
 
@@ -115,7 +115,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
           <select
             value={selectedGender}
             onChange={(e) => setSelectedGender(e.target.value)}
-            className="px-3 py-2 text-sm border border-border rounded-xl bg-card text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            className="premium-input py-2 px-3 text-muted-foreground font-bold"
           >
             {genders.map(g => (
               <option key={g} value={g}>{g === 'All' ? 'All Genders' : g}</option>
@@ -126,7 +126,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
           <select
             value={selectedBloodGroup}
             onChange={(e) => setSelectedBloodGroup(e.target.value)}
-            className="px-3 py-2 text-sm border border-border rounded-xl bg-card text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            className="premium-input py-2 px-3 text-muted-foreground font-bold"
           >
             {bloodGroups.map(bg => (
               <option key={bg} value={bg}>{bg === 'All' ? 'All Blood Groups' : bg}</option>
@@ -137,7 +137,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
         {/* Add Patient Button */}
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="w-full md:w-auto px-4 py-2.5 bg-primary text-primary-foreground font-bold hover:opacity-90 rounded-xl transition-all shadow-md shadow-primary/20 flex items-center justify-center gap-2 text-sm"
+          className="w-full md:w-auto premium-btn premium-btn-primary py-2.5 px-4 text-xs"
         >
           <Plus className="h-4 w-4" />
           <span>Register Patient</span>
@@ -149,24 +149,24 @@ export default function PatientManager({ patients, records, setPatients }: Patie
         
         {/* Patients Table list */}
         <div className={`${selectedPatientId ? 'xl:col-span-7' : 'xl:col-span-12'} transition-all duration-300`}>
-          <div className="border border-border rounded-2xl bg-card/30 backdrop-blur-md overflow-hidden">
-            <div className="p-4 border-b border-border font-bold text-sm bg-muted/20">
+          <div className="premium-card overflow-hidden">
+            <div className="p-4 border-b border-border/60 font-bold text-sm bg-muted/20 text-foreground">
               Patient Registry ({filteredPatients.length} Active Records)
             </div>
             
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border-collapse">
+              <table className="premium-table">
                 <thead>
-                  <tr className="bg-muted/55 text-muted-foreground font-semibold border-b border-border uppercase tracking-wider">
-                    <th className="p-4">ID</th>
-                    <th className="p-4">Name</th>
-                    <th className="p-4">Demographics</th>
-                    <th className="p-4">Blood Group</th>
-                    <th className="p-4">Contact</th>
-                    <th className="p-4 text-right">Details</th>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Demographics</th>
+                    <th>Blood Group</th>
+                    <th>Contact</th>
+                    <th className="text-right">Details</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-border/60">
+                <tbody>
                   {filteredPatients.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="p-8 text-center text-muted-foreground font-semibold">
@@ -178,36 +178,36 @@ export default function PatientManager({ patients, records, setPatients }: Patie
                       <tr 
                         key={patient.id} 
                         onClick={() => setSelectedPatientId(patient.id)}
-                        className={`hover:bg-muted/40 cursor-pointer transition-colors ${
+                        className={`cursor-pointer transition-colors ${
                           selectedPatientId === patient.id ? 'bg-primary/5' : ''
                         }`}
                       >
-                        <td className="p-4 font-bold text-muted-foreground">{patient.id}</td>
-                        <td className="p-4">
+                        <td className="font-bold text-muted-foreground">{patient.id}</td>
+                        <td>
                           <div className="font-bold text-sm text-foreground">{patient.name}</div>
                           <div className="text-[10px] text-muted-foreground mt-0.5">Registered: {patient.registrationDate}</div>
                         </td>
-                        <td className="p-4">
+                        <td>
                           <div className="font-medium">{patient.gender}</div>
                           <div className="text-[10px] text-muted-foreground mt-0.5">Age: {patient.age}</div>
                         </td>
-                        <td className="p-4">
+                        <td>
                           <span className="inline-flex items-center gap-1 bg-rose-500/10 text-rose-500 px-2 py-0.5 rounded-full font-bold">
                             <Droplet className="h-3 w-3" />
                             {patient.bloodGroup}
                           </span>
                         </td>
-                        <td className="p-4">
+                        <td>
                           <div className="font-medium">{patient.contact}</div>
                           <div className="text-[10px] text-muted-foreground mt-0.5">{patient.email}</div>
                         </td>
-                        <td className="p-4 text-right">
+                        <td className="text-right">
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               setSelectedPatientId(patient.id);
                             }}
-                            className="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-all"
+                            className="premium-btn premium-btn-secondary px-3 py-1.5 text-[11px]"
                           >
                             Medical Chart
                           </button>
@@ -224,7 +224,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
         {/* Selected Patient Medical Chart Details side screen */}
         {selectedPatientId && activePatient && (
           <div className="xl:col-span-5 space-y-6">
-            <div className="border border-border rounded-2xl bg-card/50 backdrop-blur-md p-6 shadow-xl relative animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="premium-card p-6 relative animate-in fade-in slide-in-from-right-4 duration-300">
               {/* Close Button */}
               <button 
                 onClick={() => setSelectedPatientId(null)}
@@ -373,7 +373,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
       {/* Add Patient Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-lg bg-card border border-border rounded-2xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
+          <div className="w-full max-w-lg premium-card p-6 relative animate-in zoom-in-95 duration-200">
             {/* Modal Close */}
             <button 
               onClick={() => setIsAddModalOpen(false)}
@@ -397,7 +397,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
                     placeholder="e.g. Martha Wayne"
-                    className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                    className="w-full premium-input"
                   />
                 </div>
                 <div>
@@ -408,7 +408,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
                     value={newAge}
                     onChange={(e) => setNewAge(e.target.value)}
                     placeholder="e.g. 35"
-                    className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                    className="w-full premium-input"
                   />
                 </div>
                 <div>
@@ -416,7 +416,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
                   <select
                     value={newGender}
                     onChange={(e) => setNewGender(e.target.value as any)}
-                    className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                    className="w-full premium-input font-bold text-muted-foreground"
                   >
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -428,7 +428,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
                   <select
                     value={newBloodGroup}
                     onChange={(e) => setNewBloodGroup(e.target.value)}
-                    className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                    className="w-full premium-input font-bold text-muted-foreground"
                   >
                     {bloodGroups.filter(b=>b!=='All').map(bg => (
                       <option key={bg} value={bg}>{bg}</option>
@@ -443,7 +443,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
                     value={newContact}
                     onChange={(e) => setNewContact(e.target.value)}
                     placeholder="e.g. +1 (555) 019-3221"
-                    className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                    className="w-full premium-input"
                   />
                 </div>
                 <div className="col-span-2">
@@ -453,7 +453,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
                     value={newEmail}
                     onChange={(e) => setNewEmail(e.target.value)}
                     placeholder="e.g. martha@domain.com"
-                    className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                    className="w-full premium-input"
                   />
                 </div>
                 <div className="col-span-2">
@@ -463,7 +463,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
                     value={newAddress}
                     onChange={(e) => setNewAddress(e.target.value)}
                     placeholder="e.g. Gotham Heights, Apt 2C"
-                    className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                    className="w-full premium-input"
                   />
                 </div>
                 <div className="col-span-2">
@@ -473,7 +473,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
                     value={newAllergies}
                     onChange={(e) => setNewAllergies(e.target.value)}
                     placeholder="e.g. Peanuts, Aspirin, Ibuprofen"
-                    className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                    className="w-full premium-input"
                   />
                 </div>
                 <div className="col-span-2">
@@ -483,7 +483,7 @@ export default function PatientManager({ patients, records, setPatients }: Patie
                     value={newEmergency}
                     onChange={(e) => setNewEmergency(e.target.value)}
                     placeholder="e.g. John Doe (+1 555-443-2211)"
-                    className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                    className="w-full premium-input"
                   />
                 </div>
               </div>
@@ -492,13 +492,13 @@ export default function PatientManager({ patients, records, setPatients }: Patie
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 border border-border rounded-xl hover:bg-muted text-xs font-bold"
+                  className="premium-btn premium-btn-secondary px-4 py-2 text-xs"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-primary text-primary-foreground font-bold hover:opacity-90 rounded-xl text-xs"
+                  className="premium-btn premium-btn-primary px-5 py-2 text-xs"
                 >
                   Register Patient
                 </button>

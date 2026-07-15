@@ -189,7 +189,7 @@ export default function DoctorDashboard({
   return (
     <div className="space-y-6">
       {/* Header Panel with Doctor Selector */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-6 border border-border/80 rounded-2xl bg-card/30 backdrop-blur-md gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-6 premium-card gap-4">
         <div className="flex items-center gap-4">
           <img
             src={activeDoctor.avatar || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d'}
@@ -222,7 +222,7 @@ export default function DoctorDashboard({
                 setSelectedDocId(e.target.value);
                 setActiveApptId(null);
               }}
-              className="px-3 py-1.5 rounded-xl border border-border bg-card text-xs font-bold focus:outline-none focus:ring-1 focus:ring-primary"
+              className="premium-input py-1.5 px-3 font-bold"
             >
               {doctors.map((doc) => (
                 <option key={doc.id} value={doc.id}>{doc.name} ({doc.specialty})</option>
@@ -254,7 +254,7 @@ export default function DoctorDashboard({
         
         {/* Left Column: Today's Appointment Queue */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="p-6 border border-border/80 rounded-2xl bg-card/30 backdrop-blur-md">
+          <div className="p-6 premium-card">
             <h3 className="text-xs font-extrabold uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
               <Clock className="h-4.5 w-4.5 text-primary" />
               <span>Today&apos;s Lobby Waiting List</span>
@@ -281,8 +281,8 @@ export default function DoctorDashboard({
                         isConsulting
                           ? 'border-primary bg-primary/5 shadow-glow-teal'
                           : appt.status === 'completed'
-                          ? 'border-border/40 opacity-60 bg-muted/10'
-                          : 'border-border bg-card/50 hover:bg-card hover:-translate-y-0.5 hover:shadow-md'
+                          ? 'border-border/45 opacity-60 bg-slate-50'
+                          : 'border-border bg-white hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-sm'
                       }`}
                     >
                       <div className="flex justify-between items-start">
@@ -342,7 +342,7 @@ export default function DoctorDashboard({
         {/* Right Column: Treatment Workspace */}
         <div className="lg:col-span-7 space-y-6">
           {activeTreatmentAppointment && activePatient ? (
-            <form onSubmit={handleSubmitTreatment} className="p-6 border border-primary/20 rounded-2xl bg-card/40 backdrop-blur-md shadow-glow-teal space-y-6 animate-in zoom-in-95 duration-200">
+            <form onSubmit={handleSubmitTreatment} className="p-6 premium-card shadow-glow-teal space-y-6 animate-in zoom-in-95 duration-200">
               <div className="flex justify-between items-center border-b border-border/60 pb-4">
                 <div>
                   <h3 className="text-xs font-extrabold uppercase tracking-widest text-primary">Active Patient Consultation</h3>
@@ -353,14 +353,14 @@ export default function DoctorDashboard({
                 <button
                   type="button"
                   onClick={() => setActiveApptId(null)}
-                  className="text-xs font-bold px-3 py-1.5 border border-border rounded-xl hover:bg-muted transition-colors"
+                  className="premium-btn premium-btn-secondary px-3 py-1.5 text-[10px]"
                 >
                   Close Session
                 </button>
               </div>
 
               {/* Patient Basic Info Card */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-xl bg-muted/40 border border-border/50 text-xs">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-xl bg-slate-50 border border-border/60 text-xs">
                 <div>
                   <span className="text-[9px] uppercase font-bold text-muted-foreground block mb-0.5">Blood Type</span>
                   <span className="font-extrabold text-foreground text-sm">{activePatient.bloodGroup}</span>
@@ -394,21 +394,21 @@ export default function DoctorDashboard({
                     <button
                       type="button"
                       onClick={() => applyVitalsPreset('normal')}
-                      className="px-2 py-0.5 rounded bg-muted hover:bg-teal-500/10 hover:text-teal-400 border border-border/80 text-[9px] font-bold transition-colors"
+                      className="px-2 py-0.5 rounded bg-white hover:bg-teal-500/10 hover:text-teal-600 border border-border text-[9px] font-bold transition-colors"
                     >
                       Normal
                     </button>
                     <button
                       type="button"
                       onClick={() => applyVitalsPreset('fever')}
-                      className="px-2 py-0.5 rounded bg-muted hover:bg-rose-500/10 hover:text-rose-400 border border-border/80 text-[9px] font-bold transition-colors"
+                      className="px-2 py-0.5 rounded bg-white hover:bg-rose-500/10 hover:text-rose-600 border border-border text-[9px] font-bold transition-colors"
                     >
                       Fever
                     </button>
                     <button
                       type="button"
                       onClick={() => applyVitalsPreset('hypertension')}
-                      className="px-2 py-0.5 rounded bg-muted hover:bg-amber-500/10 hover:text-amber-400 border border-border/80 text-[9px] font-bold transition-colors"
+                      className="px-2 py-0.5 rounded bg-white hover:bg-amber-500/10 hover:text-amber-600 border border-border text-[9px] font-bold transition-colors"
                     >
                       High BP
                     </button>
@@ -425,7 +425,7 @@ export default function DoctorDashboard({
                         value={bp}
                         onChange={(e) => setBp(e.target.value)}
                         placeholder="e.g. 120/80"
-                        className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs font-mono font-bold"
+                        className="w-full premium-input font-mono font-bold"
                         required
                       />
                     </div>
@@ -435,7 +435,7 @@ export default function DoctorDashboard({
                         type="number"
                         value={hr}
                         onChange={(e) => setHr(Number(e.target.value))}
-                        className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs font-mono font-bold"
+                        className="w-full premium-input font-mono font-bold"
                         required
                       />
                     </div>
@@ -446,7 +446,7 @@ export default function DoctorDashboard({
                         step="0.1"
                         value={temp}
                         onChange={(e) => setTemp(Number(e.target.value))}
-                        className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs font-mono font-bold"
+                        className="w-full premium-input font-mono font-bold"
                         required
                       />
                     </div>
@@ -456,7 +456,7 @@ export default function DoctorDashboard({
                         type="number"
                         value={weight}
                         onChange={(e) => setWeight(Number(e.target.value))}
-                        className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs font-mono font-bold"
+                        className="w-full premium-input font-mono font-bold"
                         required
                       />
                     </div>
@@ -498,7 +498,7 @@ export default function DoctorDashboard({
                     value={diagnosis}
                     onChange={(e) => setDiagnosis(e.target.value)}
                     placeholder="e.g. Acute Upper Respiratory Tract Infection, Essential Hypertension"
-                    className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs font-extrabold text-foreground"
+                    className="w-full premium-input font-extrabold text-foreground"
                     required
                   />
                 </div>
@@ -510,7 +510,7 @@ export default function DoctorDashboard({
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="Write details of diagnosis findings, laboratory test referrals, and general recovery advice..."
-                    className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs font-medium"
+                    className="w-full premium-input font-medium"
                   />
                 </div>
               </div>
@@ -521,25 +521,25 @@ export default function DoctorDashboard({
                 
                 {/* Medicines List table */}
                 {prescriptions.length > 0 && (
-                  <div className="border border-border/60 rounded-xl overflow-hidden text-xs">
-                    <table className="w-full text-left">
+                  <div className="border border-border/60 rounded-xl overflow-hidden text-xs bg-white/50 backdrop-blur-sm">
+                    <table className="premium-table">
                       <thead>
-                        <tr className="bg-muted/50 text-muted-foreground font-bold">
-                          <th className="p-2.5">Medicine</th>
-                          <th className="p-2.5">Dosage</th>
-                          <th className="p-2.5">Frequency</th>
-                          <th className="p-2.5">Duration</th>
-                          <th className="p-2.5 text-right">Action</th>
+                        <tr>
+                          <th>Medicine</th>
+                          <th>Dosage</th>
+                          <th>Frequency</th>
+                          <th>Duration</th>
+                          <th className="text-right">Action</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-border/60 font-semibold">
+                      <tbody className="font-semibold">
                         {prescriptions.map((med, idx) => (
-                          <tr key={idx} className="hover:bg-muted/20">
-                            <td className="p-2.5 font-bold text-foreground">{med.medicine}</td>
-                            <td className="p-2.5">{med.dosage}</td>
-                            <td className="p-2.5 text-muted-foreground">{med.frequency}</td>
-                            <td className="p-2.5 text-muted-foreground">{med.duration}</td>
-                            <td className="p-2.5 text-right">
+                          <tr key={idx}>
+                            <td className="font-bold text-foreground">{med.medicine}</td>
+                            <td>{med.dosage}</td>
+                            <td className="text-muted-foreground">{med.frequency}</td>
+                            <td className="text-muted-foreground">{med.duration}</td>
+                            <td className="text-right">
                               <button
                                 type="button"
                                 onClick={() => handleRemoveMedicine(idx)}
@@ -563,7 +563,7 @@ export default function DoctorDashboard({
                       value={medName}
                       onChange={(e) => setMedName(e.target.value)}
                       placeholder="Medicine"
-                      className="w-full px-2.5 py-1.5 border border-border rounded-lg bg-card text-xs font-semibold"
+                      className="w-full premium-input font-semibold"
                     />
                   </div>
                   <div>
@@ -572,7 +572,7 @@ export default function DoctorDashboard({
                       value={medDosage}
                       onChange={(e) => setMedDosage(e.target.value)}
                       placeholder="e.g. 500mg, 1 tab"
-                      className="w-full px-2.5 py-1.5 border border-border rounded-lg bg-card text-xs"
+                      className="w-full premium-input"
                     />
                   </div>
                   <div>
@@ -581,7 +581,7 @@ export default function DoctorDashboard({
                       value={medFreq}
                       onChange={(e) => setMedFreq(e.target.value)}
                       placeholder="e.g. Twice daily"
-                      className="w-full px-2.5 py-1.5 border border-border rounded-lg bg-card text-xs"
+                      className="w-full premium-input"
                     />
                   </div>
                   <div className="flex gap-2">
@@ -590,12 +590,12 @@ export default function DoctorDashboard({
                       value={medDur}
                       onChange={(e) => setMedDur(e.target.value)}
                       placeholder="e.g. 7 days"
-                      className="w-full px-2.5 py-1.5 border border-border rounded-lg bg-card text-xs"
+                      className="w-full premium-input"
                     />
                     <button
                       type="button"
                       onClick={handleAddMedicine}
-                      className="bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground p-1.5 rounded-lg border border-primary/20 transition-all font-bold text-xs flex items-center justify-center shrink-0"
+                      className="premium-btn premium-btn-primary p-1.5 rounded-lg border border-primary/20 shrink-0"
                     >
                       <Plus className="h-4 w-4" />
                     </button>
@@ -607,7 +607,7 @@ export default function DoctorDashboard({
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl bg-primary text-primary-foreground hover:opacity-90 font-black uppercase tracking-wider transition-all duration-300 shadow-glow-teal flex items-center justify-center gap-2 text-xs shimmer-btn"
+                  className="w-full premium-btn premium-btn-primary py-3.5 shadow-glow-teal text-xs shimmer-btn"
                 >
                   <CheckCircle2 className="h-4.5 w-4.5" />
                   <span>Submit Diagnosis & Finalize Session</span>
@@ -615,7 +615,7 @@ export default function DoctorDashboard({
               </div>
             </form>
           ) : (
-            <div className="h-full min-h-[450px] border border-dashed border-border/80 rounded-2xl flex flex-col items-center justify-center p-8 text-center text-muted-foreground bg-card/10 select-none">
+            <div className="h-full min-h-[450px] border border-dashed border-border/85 rounded-2xl flex flex-col items-center justify-center p-8 text-center text-muted-foreground bg-white/40 shadow-sm backdrop-blur-sm select-none">
               <Clipboard className="h-10 w-10 text-muted-foreground/20 mb-3" />
               <h4 className="font-extrabold text-sm text-foreground uppercase tracking-widest">Workspace Available</h4>
               <p className="text-xs max-w-sm mt-2 leading-relaxed">

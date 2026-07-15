@@ -171,7 +171,7 @@ export default function BillingManager({
       
       {/* Financial Overview counters */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 no-print">
-        <div className="p-6 border border-border rounded-2xl bg-card/30 backdrop-blur-md flex items-center justify-between">
+        <div className="p-6 premium-card flex items-center justify-between">
           <div>
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1">Total Billing Generated</span>
             <h3 className="text-2xl font-bold font-mono text-foreground">${totalRevenue.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}</h3>
@@ -181,7 +181,7 @@ export default function BillingManager({
           </div>
         </div>
 
-        <div className="p-6 border border-border rounded-2xl bg-card/30 backdrop-blur-md flex items-center justify-between">
+        <div className="p-6 premium-card flex items-center justify-between">
           <div>
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1">Payments Collected</span>
             <h3 className="text-2xl font-bold font-mono text-emerald-500">${totalPaid.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}</h3>
@@ -191,7 +191,7 @@ export default function BillingManager({
           </div>
         </div>
 
-        <div className="p-6 border border-border rounded-2xl bg-card/30 backdrop-blur-md flex items-center justify-between">
+        <div className="p-6 premium-card flex items-center justify-between">
           <div>
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1">Outstanding Balance</span>
             <h3 className="text-2xl font-bold font-mono text-rose-500">${totalOutstanding.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}</h3>
@@ -203,7 +203,7 @@ export default function BillingManager({
       </div>
 
       {/* Query Filter and Actions */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 p-4 border border-border rounded-2xl bg-card/40 backdrop-blur-md no-print">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 p-4 premium-card no-print">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto flex-1">
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -212,14 +212,14 @@ export default function BillingManager({
               placeholder="Search by Patient name or Invoice ID..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 text-sm border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary"
+              className="w-full pl-10 pr-4 py-2 premium-input"
             />
           </div>
 
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="px-3 py-2 text-sm border border-border rounded-xl bg-card text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            className="premium-input py-2 px-3 text-muted-foreground font-bold"
           >
             <option value="All">All Invoices</option>
             <option value="paid">Paid</option>
@@ -230,7 +230,7 @@ export default function BillingManager({
 
         <button
           onClick={() => setIsCreateModalOpen(true)}
-          className="w-full md:w-auto px-4 py-2.5 bg-primary text-primary-foreground font-bold hover:opacity-90 rounded-xl transition-all shadow-md shadow-primary/20 flex items-center justify-center gap-2 text-sm"
+          className="w-full md:w-auto premium-btn premium-btn-primary py-2.5 px-4 text-xs"
         >
           <Plus className="h-4 w-4" />
           <span>New Invoice</span>
@@ -238,22 +238,22 @@ export default function BillingManager({
       </div>
 
       {/* Invoice Data Grid table */}
-      <div className="border border-border rounded-2xl bg-card/30 backdrop-blur-md overflow-hidden no-print">
+      <div className="premium-card overflow-hidden no-print">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs border-collapse">
+          <table className="premium-table">
             <thead>
-              <tr className="bg-muted text-muted-foreground font-semibold border-b border-border uppercase tracking-wider">
-                <th className="p-4">Invoice ID</th>
-                <th className="p-4">Patient Name</th>
-                <th className="p-4">Invoice Date</th>
-                <th className="p-4">Due Date</th>
-                <th className="p-4">Grand Total</th>
-                <th className="p-4">Amount Due</th>
-                <th className="p-4">Status</th>
-                <th className="p-4 text-right">Actions</th>
+              <tr>
+                <th>Invoice ID</th>
+                <th>Patient Name</th>
+                <th>Invoice Date</th>
+                <th>Due Date</th>
+                <th>Grand Total</th>
+                <th>Amount Due</th>
+                <th>Status</th>
+                <th className="text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border/60">
+            <tbody>
               {filteredInvoices.length === 0 ? (
                 <tr>
                   <td colSpan={8} className="p-8 text-center text-muted-foreground font-semibold">
@@ -264,14 +264,14 @@ export default function BillingManager({
                 filteredInvoices.map((inv) => {
                   const amtDue = inv.totalAmount - inv.paidAmount;
                   return (
-                    <tr key={inv.id} className="hover:bg-muted/30">
-                      <td className="p-4 font-bold font-mono text-primary">{inv.id}</td>
-                      <td className="p-4 font-bold text-sm">{inv.patientName}</td>
-                      <td className="p-4 text-muted-foreground font-medium">{inv.invoiceDate}</td>
-                      <td className="p-4 text-muted-foreground font-medium">{inv.dueDate}</td>
-                      <td className="p-4 font-bold font-mono">${inv.totalAmount.toFixed(2)}</td>
-                      <td className="p-4 font-bold font-mono text-rose-500">${amtDue.toFixed(2)}</td>
-                      <td className="p-4">
+                    <tr key={inv.id}>
+                      <td className="font-bold font-mono text-primary">{inv.id}</td>
+                      <td className="font-bold text-sm">{inv.patientName}</td>
+                      <td className="text-muted-foreground font-medium">{inv.invoiceDate}</td>
+                      <td className="text-muted-foreground font-medium">{inv.dueDate}</td>
+                      <td className="font-bold font-mono">${inv.totalAmount.toFixed(2)}</td>
+                      <td className="font-bold font-mono text-rose-500">${amtDue.toFixed(2)}</td>
+                      <td>
                         <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${
                           inv.status === 'paid' ? 'bg-emerald-500/10 text-emerald-500' :
                           inv.status === 'partially-paid' ? 'bg-amber-500/10 text-amber-500' :
@@ -280,7 +280,7 @@ export default function BillingManager({
                           {inv.status}
                         </span>
                       </td>
-                      <td className="p-4 text-right space-x-2">
+                      <td className="text-right space-x-2">
                         {inv.status !== 'paid' && (
                           <button
                             onClick={() => {
@@ -289,14 +289,14 @@ export default function BillingManager({
                                 handleRecordPayment(inv.id, payAmount, 'Card');
                               }
                             }}
-                            className="px-2 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500 hover:text-white transition-all text-[11px] font-bold"
+                            className="premium-btn premium-btn-primary px-3 py-1.5 text-[10px]"
                           >
                             Pay Bill
                           </button>
                         )}
                         <button
                           onClick={() => setActiveInvoiceId(inv.id)}
-                          className="px-2.5 py-1.5 rounded-lg bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-all text-[11px] font-bold"
+                          className="premium-btn premium-btn-secondary px-3 py-1.5 text-[10px]"
                         >
                           View Statement
                         </button>
@@ -476,7 +476,7 @@ export default function BillingManager({
       {/* Create New Invoice Modal */}
       {isCreateModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-lg bg-card border border-border rounded-2xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
+          <div className="w-full max-w-lg premium-card p-6 relative animate-in zoom-in-95 duration-200">
             {/* Modal Close */}
             <button 
               onClick={() => setIsCreateModalOpen(false)}
@@ -498,7 +498,7 @@ export default function BillingManager({
                   required
                   value={patientId}
                   onChange={(e) => setPatientId(e.target.value)}
-                  className="w-full px-3 py-2 border border-border rounded-xl bg-card focus:outline-none focus:ring-1 focus:ring-primary text-xs"
+                  className="w-full premium-input font-bold text-muted-foreground"
                 >
                   <option value="">-- Choose Account --</option>
                   {patients.map(p => (
@@ -516,7 +516,7 @@ export default function BillingManager({
                     required
                     value={invoiceDate}
                     onChange={(e) => setInvoiceDate(e.target.value)}
-                    className="w-full px-3 py-2 border border-border rounded-xl bg-card text-xs focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="w-full premium-input font-bold"
                   />
                 </div>
                 <div>
@@ -526,7 +526,7 @@ export default function BillingManager({
                     required
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
-                    className="w-full px-3 py-2 border border-border rounded-xl bg-card text-xs focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="w-full premium-input font-bold"
                   />
                 </div>
               </div>
@@ -537,25 +537,25 @@ export default function BillingManager({
                 
                 {/* Items table list */}
                 {invoiceItems.length > 0 && (
-                  <div className="border border-border/80 rounded-xl overflow-hidden text-xs">
-                    <table className="w-full text-left">
+                  <div className="border border-border/80 rounded-xl overflow-hidden text-xs bg-white/50 backdrop-blur-sm">
+                    <table className="premium-table">
                       <thead>
-                        <tr className="bg-muted text-muted-foreground font-semibold">
-                          <th className="p-2">Description</th>
-                          <th className="p-2 text-center">Price</th>
-                          <th className="p-2 text-center">Qty</th>
-                          <th className="p-2 text-right">Subtotal</th>
-                          <th className="p-2 text-right">Actions</th>
+                        <tr>
+                          <th>Description</th>
+                          <th className="text-center">Price</th>
+                          <th className="text-center">Qty</th>
+                          <th className="text-right">Subtotal</th>
+                          <th className="text-right">Actions</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-border/60">
+                      <tbody>
                         {invoiceItems.map((itm, idx) => (
-                          <tr key={idx} className="hover:bg-muted/30">
-                            <td className="p-2 font-bold">{itm.description}</td>
-                            <td className="p-2 text-center font-mono">${itm.unitPrice.toFixed(2)}</td>
-                            <td className="p-2 text-center">{itm.quantity}</td>
-                            <td className="p-2 text-right font-bold font-mono">${(itm.unitPrice * itm.quantity).toFixed(2)}</td>
-                            <td className="p-2 text-right">
+                          <tr key={idx}>
+                            <td className="font-bold">{itm.description}</td>
+                            <td className="text-center font-mono">${itm.unitPrice.toFixed(2)}</td>
+                            <td className="text-center">{itm.quantity}</td>
+                            <td className="text-right font-bold font-mono">${(itm.unitPrice * itm.quantity).toFixed(2)}</td>
+                            <td className="text-right">
                               <button
                                 type="button"
                                 onClick={() => handleRemoveItem(idx)}
@@ -579,7 +579,7 @@ export default function BillingManager({
                       value={itemDesc}
                       onChange={(e) => setItemDesc(e.target.value)}
                       placeholder="Service / Medication / Lab desc"
-                      className="w-full px-2.5 py-1.5 border border-border rounded-lg bg-card text-xs"
+                      className="w-full premium-input"
                     />
                   </div>
                   <div>
@@ -588,7 +588,7 @@ export default function BillingManager({
                       value={itemPrice}
                       onChange={(e) => setItemPrice(Number(e.target.value))}
                       placeholder="Unit Price"
-                      className="w-full px-2.5 py-1.5 border border-border rounded-lg bg-card text-xs"
+                      className="w-full premium-input"
                     />
                   </div>
                   <div className="flex gap-2">
@@ -597,12 +597,12 @@ export default function BillingManager({
                       value={itemQty}
                       onChange={(e) => setItemQty(Number(e.target.value))}
                       placeholder="Qty"
-                      className="w-full px-2.5 py-1.5 border border-border rounded-lg bg-card text-xs"
+                      className="w-full premium-input"
                     />
                     <button
                       type="button"
                       onClick={handleAddItem}
-                      className="bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground p-1.5 rounded-lg border border-primary/20 transition-all font-bold text-xs"
+                      className="premium-btn premium-btn-primary p-1.5 rounded-lg border border-primary/20 shrink-0"
                     >
                       <Plus className="h-4 w-4" />
                     </button>
@@ -611,14 +611,14 @@ export default function BillingManager({
               </div>
 
               {/* Tax, Discounts & Payments capture */}
-              <div className="grid grid-cols-3 gap-4 border-t border-border pt-4 text-xs font-semibold">
+              <div className="grid grid-cols-3 gap-4 border-t border-border/60 pt-4 text-xs font-semibold">
                 <div>
                   <label className="text-muted-foreground block mb-1">Tax Rate (%)</label>
                   <input
                     type="number"
                     value={taxRate}
                     onChange={(e) => setTaxRate(Number(e.target.value))}
-                    className="w-full px-3 py-1.5 border border-border rounded-xl bg-card text-xs focus:ring-1 focus:ring-primary"
+                    className="w-full premium-input"
                   />
                 </div>
                 <div>
@@ -627,7 +627,7 @@ export default function BillingManager({
                     type="number"
                     value={discount}
                     onChange={(e) => setDiscount(Number(e.target.value))}
-                    className="w-full px-3 py-1.5 border border-border rounded-xl bg-card text-xs focus:ring-1 focus:ring-primary"
+                    className="w-full premium-input"
                   />
                 </div>
                 <div>
@@ -636,7 +636,7 @@ export default function BillingManager({
                     type="number"
                     value={paidAmount}
                     onChange={(e) => setPaidAmount(Number(e.target.value))}
-                    className="w-full px-3 py-1.5 border border-border rounded-xl bg-card text-xs focus:ring-1 focus:ring-primary"
+                    className="w-full premium-input"
                   />
                 </div>
                 {paidAmount > 0 && (
@@ -685,14 +685,14 @@ export default function BillingManager({
                 <button
                   type="button"
                   onClick={() => setIsCreateModalOpen(false)}
-                  className="px-4 py-2 border border-border rounded-xl hover:bg-muted text-xs font-bold"
+                  className="premium-btn premium-btn-secondary px-4 py-2 text-xs"
                 >
                   Close
                 </button>
                 <button
                   type="submit"
                   disabled={invoiceItems.length === 0}
-                  className="px-5 py-2 bg-primary text-primary-foreground font-bold hover:opacity-90 rounded-xl text-xs disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="premium-btn premium-btn-primary px-5 py-2 text-xs disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Create Invoice
                 </button>
